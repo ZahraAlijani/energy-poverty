@@ -18,3 +18,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 .claude/
+
+# EU-SILC microdata (not redistributable)
+*.RDS
