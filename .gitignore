@@ -19,6 +19,9 @@ __pycache__/
 Thumbs.db
 .claude/
 
+# Working manuscript -- kept out of the repository on purpose.
+new.tex
+
 # Microdata -- never commit. EU-SILC household data is not redistributable.
 *.RDS
 *.rds
