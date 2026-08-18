@@ -20,9 +20,9 @@ poverty index with the probabilistic sum.
 | File | Contents |
 |---|---|
 | `FuzzyEnergyPoverty.py` | Fuzzy layer: product t-norm, probabilistic sum, cosine transitions and their derivative, the indicators `I1`, `I2`, `I3`, and the composite index `P`. |
+| `silc_fuzzy.py` | Household-level memberships from the raw Czech EU-SILC variables in `dom_all_echudoba.RDS`: yearly at-risk-of-poverty line, cosine transitions on the energy expenditure share and on relative residual income, all threshold parameters in one dataclass, plus an audit of gradedness and of consistency with the official binary flags. |
+| `empirical_lambda.py` | Empirical calibration of Section 7: weighted annual prevalence series, estimation of `λ_i` under the model's sign restrictions and by plain OLS, the `λ_b` sweep, the robustness check over transition widths, and figure 7. |
 | `paper_figures.py` | Integrates the system and regenerates every figure of the paper into `img/`; also prints the eigenvalues and index levels cited in the text. |
-| `TrajectoriesSimulation.py` | Earlier standalone simulation of the two parameter regimes. |
-| `TrajectoriesSimulation.ipynb` | Notebook used for exploratory runs. |
 | `img/` | The figures as included by the paper (PDF and PNG). |
 
 ## Reproducing the figures
@@ -56,3 +56,22 @@ EU-SILC (inability to heat adequately; arrears on utility bills; high energy
 burden combined with income poverty), but the framework is transferable: the
 thresholds in `FuzzyThresholds` can be replaced by locally relevant ones without
 changing the dynamics.
+
+The empirical part reads `dom_all_echudoba.RDS` (household-level Czech EU-SILC,
+2005–2025; not redistributable, hence gitignored):
+
+```bash
+pip install numpy scipy pandas matplotlib pyreadr
+python silc_fuzzy.py        # memberships + audit of the fuzzification
+python empirical_lambda.py  # calibration, robustness check, img/fig7_*
+```
+
+The memberships are **not** taken from the `*_f` columns of that file. `I1_f`
+and `I2_f` are binary copies of the survey items `DOST_VYTAP` and `DLUH_PLATB`,
+`bydzat_f` grades the *subjective housing-cost* burden rather than the energy
+burden, and `chudoba24_f` is a composite poverty score fuzzified by a piecewise
+linear ramp. `silc_fuzzy.py` therefore rebuilds `b` from `pene` (energy
+expenditure over net income, cut-off 20 %) and `p` from `rezsj24` relative to
+the yearly poverty line, in both cases with the C¹ cosine transition centred on
+the official cut-off, so that the ½-cut reproduces `nad20` and `ch_prij24`
+exactly.

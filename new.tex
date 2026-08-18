@@ -956,20 +956,49 @@ Because $\tilde P(t)$ is continuous and sensitive to intermediate levels of vuln
 \section{Empirical Illustration: the Role of $\lambda$ in Czech EU--SILC Data}
 \label{sec:empirical-lambda}
 
-The analysis so far has treated the self-correction rates $\lambda_h,\lambda_d,\lambda_b,\lambda_p$ as free parameters and shown, in Sections~\ref{sec:sim-trap} and~\ref{sec:sim-stable}, that the direct damping of the energy burden $\lambda_b$ is decisive for whether deprivation persists or fades. We now illustrate that this is not merely a theoretical possibility by calibrating the simplified system on Czech EU--SILC microdata and quantifying the empirical role of $\lambda$. The purpose is illustrative rather than predictive: with only two decades of annual observations the exercise cannot identify the full parameter set precisely, but it is sufficient to locate the observed system relative to the stability boundary and to show that the burden dimension is the binding one, exactly as the theory predicts.
+The analysis so far has treated the self-correction rates $\lambda_h,\lambda_d,\lambda_b,\lambda_p$ as free parameters and shown, in Sections~\ref{sec:sim-trap} and~\ref{sec:sim-stable}, that the direct damping of the energy burden $\lambda_b$ is decisive for whether deprivation persists or fades. We now illustrate that this is not merely a theoretical possibility by calibrating the simplified system on Czech EU--SILC microdata and quantifying the empirical role of $\lambda$. The purpose is illustrative rather than predictive: with only two decades of annual observations the exercise cannot identify the full parameter set precisely, but it is sufficient to locate the observed system relative to the stability boundary and to see which of the four channels the margin of stability actually rests on.
 
 \paragraph{Data and construction of the state series.}
-We use household-level EU--SILC data for the Czech Republic covering 2005--2025, comprising roughly $8{,}500$ households per year. For each household the three fuzzy indicators of Section~\ref{sec:fuzzy} and the burden and poverty memberships are available directly; averaging them with the household cross-sectional weights yields a weighted annual prevalence for each dimension. We identify these aggregate intensities with the state variables of the model, so that $h(t)$ is the fuzzy heating-and-cooling indicator $\tilde I_1$, $d(t)$ the fuzzy debt indicator $\tilde I_2$, $b(t)$ the fuzzy energy-burden membership $\mu_b$, and $p(t)$ the fuzzy poverty membership $\mu_p$, each measured as a population share in $[0,1]$. The burden and poverty series are available from 2009 onward, giving $n=17$ annual points; they are shown in Figure~\ref{fig:empirical-lambda}(a). Poverty and, to a lesser extent, energy burden remain at high and persistent levels throughout, whereas thermal deprivation and arrears are low and react visibly to the COVID-19 period and the 2022--2023 energy-price shock.
+We use household-level EU--SILC data for the Czech Republic covering 2005--2025, comprising roughly $8{,}500$ households per year. The memberships are built from the underlying continuous EU--SILC variables by the cosine transitions~\eqref{eq:costransition} of Section~\ref{sec:fuzzy}, not from the binary flags of the survey file, and are then averaged with the household cross-sectional weights to give a weighted annual prevalence for each dimension. Table~\ref{tab:silc-fuzzification} lists the variable and the pair of thresholds used for each state.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{cllccc}
+\toprule
+\textbf{State} & \textbf{EU--SILC quantity} & \textbf{Membership} & $L$ & $U$ & $\tau$ \\
+\midrule
+$b$ & energy expenditure / net income & $\Psi_{0\to1}(\cdot;L_b,U_b)$ & $0.15$ & $0.25$ & $0.20$ \\
+$p$ & residual income / poverty line & $\Psi_{1\to0}(\cdot;L_p,U_p)$ & $0.80$ & $1.20$ & $1$ \\
+$d$ & arrears on utility bills & binary item & -- & -- & -- \\
+$h$ & cannot keep the dwelling warm & binary item & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\caption{Fuzzification of the four dimensions on EU--SILC microdata. Each pair
+of thresholds is centred on the official cut-off $\tau=(L+U)/2$ it replaces --
+the $20\,\%$ energy-burden cut-off and the at-risk-of-poverty line, the latter
+recomputed for every year as $60\,\%$ of the weighted median residual income
+per consumption unit -- so that thresholding a membership at $\tfrac12$
+reproduces the official binary classification exactly, and the width
+$\Delta=U-L$ is the only free parameter.}
+\label{tab:silc-fuzzification}
+\end{table}
+
+Two remarks on this construction. First, the gradedness is genuine where the survey measures a quantity: $21\,\%$ of households fall strictly inside the burden band $(0.15,0.25)$ and $15\,\%$ strictly inside the poverty band $(0.8,1.2)$ around the line, so their membership is neither $0$ nor $1$ and their contribution to the annual prevalence is a fraction of a household rather than a whole one. Second, the gradedness is unavailable where the survey records only an answer: both the thermal item, ``the household cannot afford to keep the dwelling adequately warm'', and the arrears item, ``the household has been in arrears on utility bills'', are yes/no questions with no underlying continuous variable to compare against a threshold. For $h$ and $d$ the cosine transition therefore degenerates to the crisp indicator, which is the limiting case $\Delta\to0$ discussed after~\eqref{eq:costransition}. The fuzzy formulation is thus exercised exactly on the two dimensions the theory identifies as carrying the reinforcing feedback.
+
+We identify the aggregate intensities with the state variables of the model, so that $h(t)$ is the thermal indicator $\tilde I_1$, $d(t)$ the debt indicator $\tilde I_2$, $b(t)$ the fuzzy energy-burden membership $\mu_b$, and $p(t)$ the fuzzy income-poverty membership $\mu_p$, each measured as a population share in $[0,1]$. The burden and poverty series are available from 2009 onward, giving $n=17$ annual points; they are shown in Figure~\ref{fig:empirical-lambda}(a). Income poverty is flat throughout, near $0.15$, while the energy burden is the most volatile dimension: it falls from $0.18$ in 2009 to $0.11$ in 2021 and rises again to $0.19$ in 2023, the year of the energy-price shock, which is also the year in which thermal deprivation doubles. Arrears are low and decline steadily.
 
 \paragraph{Calibration.}
-Interpreting the annual change of each series as a discrete approximation of its time derivative, we fit the simplified system~\eqref{eq:red_h}--\eqref{eq:red_p} with the sparsity pattern of the matrix $A$, adding a constant term that represents a persistent exogenous inflow and shifts the equilibrium away from the origin toward the observed levels. Each equation is estimated by ordinary least squares, and the self-correction rate of a dimension is read off the corresponding diagonal entry, $\lambda_i=-A_{ii}$. The estimated rates (per year) are
+Interpreting the annual change of each series as a discrete approximation of its time derivative, we fit the simplified system~\eqref{eq:red_h}--\eqref{eq:red_p} with the sparsity pattern of the matrix $A$, adding a constant term that represents a persistent exogenous inflow and shifts the equilibrium away from the origin toward the observed levels. The model constrains the signs of the entries of $A$: every self-correction rate is non-negative and every cross-effect is non-negative, $\lambda_i\ge0$ and $\alpha_{ij}\ge0$. We impose that restriction in the estimation, so that the fitted matrix belongs to the class of matrices the theory is about; each equation is estimated by least squares subject to these bounds, and the self-correction rate of a dimension is read off the corresponding diagonal entry, $\lambda_i=-A_{ii}$. The estimated rates (per year) are
 \[
-\lambda_h\approx0.75,\qquad
-\lambda_d\approx0.41,\qquad
-\lambda_b\approx0.28,\qquad
-\lambda_p\approx0.28,
+\lambda_h\approx0.26,\qquad
+\lambda_d\approx0.15,\qquad
+\lambda_b\approx0.66,\qquad
+\lambda_p\approx0.72,
 \]
-all positive, so every dimension is intrinsically mean-reverting. The eigenvalues of the fitted $A$ are $-0.80\pm0.14i$ and $-0.06\pm0.08i$; the dominant one has real part $\approx-0.06$. The observed Czech system is therefore stable but only marginally so: deprivation returns to its equilibrium very slowly, with a characteristic time of roughly $1/0.06\approx16$ years, which is the dynamical signature of a near-trap and is consistent with the well-documented persistence of energy poverty.
+and the only cross-effects the data support with the sign the model requires are those acting on the burden equation, $\alpha_{bd}\approx2.12$ and $\alpha_{bp}\approx0.77$, together with a weak feedback of the burden on arrears, $\alpha_{db}\approx0.01$; the remaining cross-effects are estimated at the boundary, that is, at zero. The eigenvalues of the fitted $A$ are $-0.115$, $-0.259$, $-0.696$ and $-0.715$, all real and negative. The observed Czech system is therefore stable but only weakly so: deprivation returns to its equilibrium with a characteristic time of roughly $1/0.115\approx9$ years, which is the dynamical signature of a near-trap and is consistent with the well-documented persistence of energy poverty.
+
+Unconstrained ordinary least squares does not stay inside the model class on these data. It returns a positive own-coefficient in the thermal equation, $\lambda_h\approx-0.34$, and four of the eight cross-effects with the sign opposite to the one the model assumes, which by itself makes the fitted matrix unstable, with dominant eigenvalue $\approx+0.35$. This is a statement about identification rather than about the Czech system: with sixteen annual differences, four coefficients per equation and series that rise and fall together, the unrestricted regression has little to separate a dimension's own persistence from the influence of its drivers. It is reported here because it fixes the accuracy the exercise can claim.
 
 \begin{figure}[htbp]
 \centering
@@ -980,19 +1009,25 @@ prevalence of the four deprivation dimensions in Czech EU--SILC data,
 of the burden self-correction rate $\lambda_b$, with the remaining parameters
 fixed at their estimated values. The system is stable where the curve is
 negative (green) and a poverty trap where it is positive (red); the crossing
-defines the critical rate $\lambda_b^*\approx0.11$, while the estimated
-$\lambda_b\approx0.28$ places the observed system on the stable side but close
-to the boundary.}
+defines the critical rate $\lambda_b^*\approx0.14$, while the estimated
+$\lambda_b\approx0.66$ places the observed system on the stable side.}
 \label{fig:empirical-lambda}
 \end{figure}
 
 \paragraph{Impact of $\lambda_b$.}
-To isolate the role of the burden dimension we vary $\lambda_b$ while holding the remaining entries of $A$ at their estimated values and track the dominant eigenvalue, Figure~\ref{fig:empirical-lambda}(b). It decreases monotonically in $\lambda_b$ and changes sign at a critical value $\lambda_b^*\approx0.11$: below it the reinforcing feedback from arrears and poverty overwhelms the weak damping of the burden and the zero-deprivation equilibrium becomes unstable, whereas above it the system converges. The estimated $\lambda_b\approx0.28$ lies above this threshold but within the same order of magnitude, so the observed margin of stability is thin and rests specifically on the burden channel. The same sweep applied to $\lambda_h$, $\lambda_d$, or $\lambda_p$ leaves the dominant eigenvalue negative over the entire plausible range, confirming that among the four rates it is $\lambda_b$ that governs the qualitative behavior. This is the empirical counterpart of the contrast between Figures~\ref{fig:unstable} and~\ref{fig:stable}: a structural weakening of energy-burden correction, for instance the withdrawal of affordability measures during a price shock, could move the real system across $\lambda_b^*$ into a persistent trap, whereas policies that raise $\lambda_b$ enlarge the stability margin.
+To isolate the role of the burden dimension we vary $\lambda_b$ while holding the remaining entries of $A$ at their estimated values and track the dominant eigenvalue, Figure~\ref{fig:empirical-lambda}(b). It decreases in $\lambda_b$ and changes sign at a critical value $\lambda_b^*\approx0.14$: below it the reinforcing feedback that reaches the burden from arrears and poverty overwhelms its own damping and the zero-deprivation equilibrium becomes unstable, whereas above it the system converges. The estimated $\lambda_b\approx0.66$ lies above this threshold by a factor of about five. The same sweep applied to $\lambda_h$ or $\lambda_p$ leaves the dominant eigenvalue negative for every positive rate, because in the fitted matrix nothing feeds back into those two dimensions; only $\lambda_d$ has a critical value of its own, $\lambda_d^*\approx0.03$. What the estimate therefore locates is not a single decisive rate but a single decisive loop: burden and arrears reinforce each other, and stability requires
+\[
+\lambda_b\lambda_d>\alpha_{bd}\alpha_{db}\approx0.021,
+\]
+which the estimated rates satisfy with $\lambda_b\lambda_d\approx0.101$. This is the empirical counterpart of the contrast between Figures~\ref{fig:unstable} and~\ref{fig:stable}: a structural weakening of energy-burden correction, for instance the withdrawal of affordability measures during a price shock, moves the real system toward $\lambda_b^*$, whereas policies that raise $\lambda_b$ enlarge the stability margin.
+
+\paragraph{Robustness to the fuzzification.}
+Because the thresholds of Table~\ref{tab:silc-fuzzification} are a modelling choice, the calibration is repeated for transition widths between $\Delta_b=0.002$ and $\Delta_b=0.20$, with $\Delta_p$ scaled accordingly. The estimates barely move: $\lambda_b$ stays within $[0.65,0.67]$, the dominant eigenvalue within $[-0.117,-0.111]$ and the critical rate within $[0.10,0.19]$, and the conclusion is unchanged in the near-crisp limit as well as when the arrears dimension is graded by the number of payment domains in arrears instead of the single utility item. The width of the transitions is thus not what drives the result; the choice of the underlying variable is. Substituting the survey file's own composite poverty score for income poverty, and its subjective housing-cost burden for the energy burden, moves the same estimator to $\lambda_b\approx0.42$ against a critical rate $\lambda_b^*\approx0.24$, that is, to a margin of stability roughly three times thinner, with a dominant eigenvalue of $-0.05$ instead of $-0.115$.
 
 \paragraph{Caveats.}
-The calibration gives an order of magnitude, not a precise estimate. Four limitations matter. First, the series are short: seventeen annual points carry little information about the coefficients. Second, averaging households into national shares hides the differences between them, so the model describes an average household rather than a varied population. Third, the equations are linear and closed, and therefore leave out the external forces—energy prices, weather, policy changes—that visibly move the observed series; the fit has to attribute their effect to the internal feedbacks. Fourth, the cross-effect coefficients are weakly identified, because the four series rise and fall together and the regression cannot cleanly separate their mutual influences.
+The calibration gives an order of magnitude, not a precise estimate. Five limitations matter. First, the series are short: seventeen annual points carry little information about the coefficients. Second, averaging households into national shares hides the differences between them, so the model describes an average household rather than a varied population. Third, the equations are linear and closed, and therefore leave out the external forces—energy prices, weather, policy changes—that visibly move the observed series; the fit has to attribute their effect to the internal feedbacks. Fourth, the cross-effect coefficients are weakly identified, because the four series rise and fall together and the regression cannot cleanly separate their mutual influences; five of the eight are estimated at the boundary of the admissible sign region, and the unconstrained fit leaves that region altogether. Fifth, two of the four dimensions are measured by binary survey items, so the gradual measure is exercised on the burden and poverty dimensions only.
 
-Two conclusions nevertheless survive, because both are qualitative rather than numerical. All self-correction rates are positive but small, so the system does return to equilibrium, only very slowly. And among the four rates, $\lambda_b$ is the one closest to the stability boundary. These are exactly the two features that the theory of Sections~\ref{sec:sim-trap} and~\ref{sec:sim-stable} predicts in advance. The data were free to contradict them and did not. The exercise therefore supports the mechanism developed above, even though it cannot measure it.
+One conclusion nevertheless survives, because it is qualitative rather than numerical. The reinforcing feedback that the data support runs through the energy burden: it is the only equation whose drivers are estimated away from zero, and the stability of the fitted system is decided by the loop it forms with arrears. That is the channel the theory of Sections~\ref{sec:sim-trap} and~\ref{sec:sim-stable} singles out in advance. The data were free to place the reinforcement elsewhere and did not. The exercise therefore supports the mechanism developed above, even though it cannot measure it.
 
 %%%%%%%%%%%%%%%%%%%
 
@@ -1006,7 +1041,7 @@ same source. The complete implementation is openly available in the repository
 \begin{center}
 \url{\codeurl}
 \end{center}
-and consists of three Python modules. The module \texttt{FuzzyEnergyPoverty.py}
+and consists of four Python modules. The module \texttt{FuzzyEnergyPoverty.py}
 implements the fuzzy layer of Section~\ref{sec:fuzzy}: the product t-norm, the
 probabilistic sum, the cosine transitions~\eqref{eq:costransition} together with
 their derivative~\eqref{eq:dpsi}, the three indicators, and the composite
@@ -1014,13 +1049,22 @@ index~\eqref{eq:fuzzy-index}. The script \texttt{paper\_figures.py} integrates
 the simplified system~\eqref{eq:red_h}--\eqref{eq:red_p} and draws all figures,
 collecting every parameter that appears in a caption in a single configuration
 block; running it reproduces the figures of this paper together with the
-eigenvalues and index levels quoted in the text. The script
+eigenvalues and index levels quoted in the text. The module
+\texttt{silc\_fuzzy.py} builds the household-level memberships of
+Table~\ref{tab:silc-fuzzification} from the raw EU--SILC variables of the file
+\texttt{dom\_all\_echudoba.RDS}: it recomputes the yearly at-risk-of-poverty
+line, applies the cosine transitions~\eqref{eq:costransition} to the energy
+expenditure share and to the relative residual income, collects all threshold
+parameters in a single dataclass, and reports how much of the population falls
+strictly inside each transition band and whether the $\tfrac12$-cut of every
+membership reproduces the official binary classification. The script
 \texttt{empirical\_lambda.py} carries out the empirical calibration of
-Section~\ref{sec:empirical-lambda}: it reads the Czech EU--SILC file
-\texttt{dom\_all\_echudoba.RDS}, builds the weighted annual prevalence series,
-estimates the self-correction rates $\lambda_i$, and produces
-Figure~\ref{fig:empirical-lambda} together with the eigenvalues and the critical
-rate $\lambda_b^*$ quoted in the text.
+Section~\ref{sec:empirical-lambda}: it builds the weighted annual prevalence
+series, estimates the self-correction rates $\lambda_i$ under the sign
+restrictions of the model as well as by unconstrained least squares, repeats the
+estimation for the alternative transition widths of the robustness check, and
+produces Figure~\ref{fig:empirical-lambda} together with the eigenvalues and the
+critical rate $\lambda_b^*$ quoted in the text.
 Table~\ref{tab:code-map} maps the figures to the functions that produce them.
 
 \begin{table}[h!]
